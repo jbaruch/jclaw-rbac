@@ -16,10 +16,12 @@ import org.springframework.security.web.SecurityFilterChain;
 /**
  * Spring Security 7 configuration for AI agent RBAC.
  *
- * Three roles control which AI tools are available:
- * - ADMIN  -> all tools (conference search, time, weather, user management, introspect)
- * - ANALYST -> analytical tools (conference search, time, weather)
- * - VIEWER  -> chat only, no tools
+ * Five users, each with a unique AI agent persona:
+ * - elvis  (ADMIN)   -> The King -- all tools, dramatic confidence
+ * - spock  (ADMIN)   -> Mr. Spock -- all tools, pure logic
+ * - godfather (ANALYST) -> Don Corleone -- analytical tools, menacing wisdom
+ * - pirate (ANALYST) -> Captain Jack Sparrow -- analytical tools, rum-soaked nonsense
+ * - yoda   (VIEWER)  -> Master Yoda -- no tools, inverted wisdom only
  *
  * Role hierarchy ensures ADMIN inherits ANALYST permissions, and ANALYST inherits VIEWER.
  */
@@ -43,22 +45,32 @@ public class SecurityConfig {
 
     @Bean
     InMemoryUserDetailsManager userDetailsService(PasswordEncoder passwordEncoder) {
-        var admin = User.builder()
-                .username("admin")
-                .password(passwordEncoder.encode("admin"))
+        var elvis = User.builder()
+                .username("elvis")
+                .password(passwordEncoder.encode("elvis"))
                 .roles("ADMIN")
                 .build();
-        var analyst = User.builder()
-                .username("analyst")
-                .password(passwordEncoder.encode("analyst"))
+        var spock = User.builder()
+                .username("spock")
+                .password(passwordEncoder.encode("spock"))
+                .roles("ADMIN")
+                .build();
+        var godfather = User.builder()
+                .username("godfather")
+                .password(passwordEncoder.encode("godfather"))
                 .roles("ANALYST")
                 .build();
-        var viewer = User.builder()
-                .username("viewer")
-                .password(passwordEncoder.encode("viewer"))
+        var pirate = User.builder()
+                .username("pirate")
+                .password(passwordEncoder.encode("pirate"))
+                .roles("ANALYST")
+                .build();
+        var yoda = User.builder()
+                .username("yoda")
+                .password(passwordEncoder.encode("yoda"))
                 .roles("VIEWER")
                 .build();
-        return new InMemoryUserDetailsManager(admin, analyst, viewer);
+        return new InMemoryUserDetailsManager(elvis, spock, godfather, pirate, yoda);
     }
 
     @Bean

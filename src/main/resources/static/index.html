@@ -19,7 +19,7 @@
         <form id="login-form" autocomplete="off">
             <div class="form-group">
                 <label for="username">Username</label>
-                <input type="text" id="username" name="username" placeholder="admin / analyst / viewer" autofocus>
+                <input type="text" id="username" name="username" placeholder="elvis / godfather / yoda / pirate / spock" autofocus>
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
@@ -46,10 +46,17 @@
         </div>
     </div>
 
-    <!-- User info + Role badge -->
-    <div class="user-info-banner">
-        <div class="user-name" id="banner-username"></div>
-        <div class="role-badge" id="banner-role"></div>
+    <!-- Persona banner -->
+    <div class="persona-banner" id="persona-banner">
+        <div class="persona-emoji" id="persona-emoji"></div>
+        <div class="persona-info">
+            <div class="persona-label">You are speaking with</div>
+            <div class="persona-name" id="persona-name"></div>
+        </div>
+        <div class="persona-right">
+            <div class="user-name" id="banner-username"></div>
+            <div class="role-badge" id="banner-role"></div>
+        </div>
     </div>
 
     <!-- Tool cards -->
@@ -57,11 +64,11 @@
     <div class="tools-grid" id="tools-grid"></div>
 
     <!-- Chat -->
-    <div class="section-title">Chat with JClaw</div>
+    <div class="section-title">Chat with <span id="chat-persona-name"></span></div>
     <div class="chat-container">
         <div class="chat-messages" id="chat-messages"></div>
         <form id="chat-form" class="chat-input-row">
-            <input type="text" id="chat-input" placeholder="Ask JClaw something..." autocomplete="off">
+            <input type="text" id="chat-input" placeholder="Say something..." autocomplete="off">
             <button type="submit" class="btn-send" id="btn-send">Send</button>
         </form>
     </div>

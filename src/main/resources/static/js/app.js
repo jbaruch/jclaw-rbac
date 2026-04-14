@@ -24,6 +24,10 @@
     const userDisplay      = document.getElementById('user-display');
     const bannerUsername   = document.getElementById('banner-username');
     const bannerRole       = document.getElementById('banner-role');
+    const personaEmoji     = document.getElementById('persona-emoji');
+    const personaName      = document.getElementById('persona-name');
+    const chatPersonaName  = document.getElementById('chat-persona-name');
+    const personaBanner    = document.getElementById('persona-banner');
     const toolsGrid        = document.getElementById('tools-grid');
     const chatMessages     = document.getElementById('chat-messages');
     const chatForm         = document.getElementById('chat-form');
@@ -84,6 +88,16 @@
         // User info
         userDisplay.textContent = userInfo.username;
         bannerUsername.textContent = userInfo.username;
+
+        // Persona info
+        var pName = userInfo.persona || 'JClaw';
+        var pEmoji = userInfo.personaEmoji || '\uD83E\uDD9E';
+        personaEmoji.textContent = pEmoji;
+        personaName.textContent = pName;
+        chatPersonaName.textContent = pName;
+
+        // Apply persona-specific color class to the banner
+        personaBanner.className = 'persona-banner persona-' + userInfo.username;
 
         // Primary role (highest)
         var primaryRole = 'VIEWER';

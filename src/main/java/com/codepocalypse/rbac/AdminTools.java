@@ -29,7 +29,7 @@ public class AdminTools {
     @Tool(description = "List all configured users in the system with their roles. Admin only.")
     public String listUsers() {
         var sb = new StringBuilder("Configured users:\n\n");
-        for (String username : new String[]{"admin", "analyst", "viewer"}) {
+        for (String username : new String[]{"elvis", "spock", "godfather", "pirate", "yoda"}) {
             var user = userDetailsManager.loadUserByUsername(username);
             sb.append("- ").append(user.getUsername())
                     .append(" | roles: ").append(user.getAuthorities())

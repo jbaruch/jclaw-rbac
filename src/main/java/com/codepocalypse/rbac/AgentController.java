@@ -13,18 +13,20 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Single /chat endpoint that serves different AI capabilities based on user role.
+ * Single /chat endpoint that serves a DIFFERENT AI agent persona per user.
  *
- * The controller builds a per-request ChatClient by:
- * 1. Reading the authenticated user's roles from SecurityContextHolder
- * 2. Selecting which tool beans to register based on role
- * 3. Injecting the user's identity into the system prompt
+ * Same endpoint, completely different experience. The controller:
+ * 1. Reads the authenticated user's username from SecurityContextHolder
+ * 2. Looks up the persona system prompt for that specific user
+ * 3. Selects which tool beans to register based on the user's role
+ * 4. Builds a per-request ChatClient with the persona prompt and role-appropriate tools
  *
- * Even though tools are registered per-role, the REAL security enforcement
- * happens at the @PreAuthorize level on each @Tool method. This is defense
- * in depth: the controller filters tools by role (so the LLM doesn't even
- * see tools it can't use), AND @PreAuthorize blocks execution if something
- * slips through. Belt AND suspenders. The Java way.
+ * Elvis gets The King. Spock gets pure logic. Yoda gets no tools.
+ * The role still controls access. The persona controls the vibe.
+ *
+ * Defense in depth: the controller filters tools by role (so the LLM doesn't
+ * even see tools it can't use), AND @PreAuthorize blocks execution if something
+ * slips through. Belt AND suspenders.
  */
 @RestController
 public class AgentController {
@@ -49,6 +51,9 @@ public class AgentController {
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(", "));
 
+        // Get the persona for this specific user
+        AgentConfig.Persona persona = AgentConfig.getPersona(username);
+
         // Select tools based on role -- defense in depth layer 1
         List<Object> tools = new ArrayList<>();
         if (hasRole(auth, "ROLE_ANALYST")) {
@@ -58,8 +63,9 @@ public class AgentController {
             tools.add(adminTools);
         }
 
-        // Build a per-request ChatClient with role-appropriate tools
+        // Build a per-request ChatClient with persona-specific system prompt
         var builder = chatClientBuilder.clone();
+        builder.defaultSystem(persona.systemPrompt());
         if (!tools.isEmpty()) {
             builder.defaultTools(tools.toArray());
         }
