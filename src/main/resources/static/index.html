@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JClaw RBAC</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<!-- Login Section -->
+<div id="login-section" class="container">
+    <div class="login-card">
+        <div class="login-header">
+            <span class="logo">&#129438;</span>
+            <h1>JClaw RBAC</h1>
+            <p class="subtitle">Spring Security 7 + Spring AI 2.0</p>
+        </div>
+        <form id="login-form" autocomplete="off">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="admin / analyst / viewer" autofocus>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="same as username">
+            </div>
+            <button type="submit" class="btn-login">Sign In</button>
+            <p id="login-error" class="error-text"></p>
+        </form>
+    </div>
+</div>
+
+<!-- Dashboard Section (hidden until login) -->
+<div id="dashboard-section" class="container" style="display:none;">
+
+    <!-- Top bar -->
+    <div class="top-bar">
+        <div class="top-bar-left">
+            <span class="logo-small">&#129438;</span>
+            <span class="app-name">JClaw RBAC</span>
+        </div>
+        <div class="top-bar-right">
+            <span id="user-display" class="user-display"></span>
+            <button id="logout-btn" class="btn-logout">Sign Out</button>
+        </div>
+    </div>
+
+    <!-- User info + Role badge -->
+    <div class="user-info-banner">
+        <div class="user-name" id="banner-username"></div>
+        <div class="role-badge" id="banner-role"></div>
+    </div>
+
+    <!-- Tool cards -->
+    <div class="section-title">Available Tools</div>
+    <div class="tools-grid" id="tools-grid"></div>
+
+    <!-- Chat -->
+    <div class="section-title">Chat with JClaw</div>
+    <div class="chat-container">
+        <div class="chat-messages" id="chat-messages"></div>
+        <form id="chat-form" class="chat-input-row">
+            <input type="text" id="chat-input" placeholder="Ask JClaw something..." autocomplete="off">
+            <button type="submit" class="btn-send" id="btn-send">Send</button>
+        </form>
+    </div>
+</div>
+
+<script src="/js/app.js"></script>
+</body>
+</html>
